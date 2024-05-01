@@ -8,6 +8,7 @@ import DB40.BaseDatos40;
 import DB40.VolcarInfo;
 import batallas.Batalla;
 import componentes.personas.Condecorados;
+import excepciones.batallas.NombreExistenteException;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +23,7 @@ public class MEDAC_ProgramacionBatalla {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        String archivoQueLeer = "C:\\Users\\anouar\\Desktop\\MEDACMuProgWaWDB40\\Heroess.csv";
+        String archivoQueLeer = "C:\\Users\\anouar\\Desktop\\MEDACMuProgWaWDB40\\Heroes.csv";
      /*   VolcarInfo nnn = new VolcarInfo();
 
         try {
@@ -43,9 +44,11 @@ public class MEDAC_ProgramacionBatalla {
         ho.ListadeCondecorados(archivoQueLeer);*/
 
 
-        BaseDatos40 SS= new BaseDatos40();
-        SS.borrarBBDD();
-        SS.cerrarConeccion();
+       // BaseDatos40 SSS = new BaseDatos40();
+     //   SSS.borrarBBDD();
+       VolcarInfo SS= new VolcarInfo();
+        SS.ListadeCondecorados(archivoQueLeer);
+        //SSS.cerrarConeccion();
 
     }
 }

@@ -2,20 +2,22 @@ package componentes.personas;
 
 import java.util.Date;
 
-public class Condecorados {
+public class Condecorados extends Persona{
+
     private String lastName;
     private String firstName;
-    private String recommendedAward;
+    private String officerOrEnlistedIndividual;
     private String typeOfActionCommendedByOriginator;
-    private Date dateAwardApproved;
+    private String nameofApprovedAward;
 
-    public Condecorados(String lastName, String firstName, String recommendedAward, String typeOfActionCommendedByOriginator, Date dateAwardApproved) {
+    public Condecorados(String lastName, String firstName, String officerOrEnlistedIndividual, String typeOfActionCommendedByOriginator, String nameofApprovedAward) {
         this.lastName = lastName;
         this.firstName = firstName;
-        this.recommendedAward = recommendedAward;
+        this.officerOrEnlistedIndividual = officerOrEnlistedIndividual;
         this.typeOfActionCommendedByOriginator = typeOfActionCommendedByOriginator;
-        this.dateAwardApproved = dateAwardApproved;
+        this.nameofApprovedAward = nameofApprovedAward;
     }
+
 
     public String getLastName() {
         return lastName;
@@ -33,12 +35,12 @@ public class Condecorados {
         this.firstName = firstName;
     }
 
-    public String getRecommendedAward() {
-        return recommendedAward;
+    public String getOfficerorenlistedindividual() {
+        return typeOfActionCommendedByOriginator;
     }
 
-    public void setRecommendedAward(String recommendedAward) {
-        this.recommendedAward = recommendedAward;
+    public void setOfficerorenlistedindividual(String officerorenlistedindividual) {
+        this.typeOfActionCommendedByOriginator = officerorenlistedindividual;
     }
 
     public String getTypeOfActionCommendedByOriginator() {
@@ -49,12 +51,12 @@ public class Condecorados {
         this.typeOfActionCommendedByOriginator = typeOfActionCommendedByOriginator;
     }
 
-    public Date getDateAwardApproved() {
-        return dateAwardApproved;
+    public String getNameofapprovedaward() {
+        return nameofApprovedAward;
     }
 
-    public void setDateAwardApproved(Date dateAwardApproved) {
-        this.dateAwardApproved = dateAwardApproved;
+    public void setNameofapprovedaward(String nameofapprovedaward) {
+        this.nameofApprovedAward = nameofapprovedaward;
     }
 
     @Override
@@ -62,9 +64,9 @@ public class Condecorados {
         return "Condecorados{" +
                 "lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", recommendedAward='" + recommendedAward + '\'' +
+                ", recommendedAward='" + typeOfActionCommendedByOriginator + '\'' +
                 ", typeOfActionCommendedByOriginator='" + typeOfActionCommendedByOriginator + '\'' +
-                ", dateAwardApproved=" + dateAwardApproved +
+                ", dateAwardApproved=" + nameofApprovedAward +
                 '}';
     }
 }

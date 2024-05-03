@@ -6,6 +6,7 @@ package batallas;
 
 import componentes.Componentes;
 import componentes.animales.Elefante;
+import componentes.animales.Heroes;
 import componentes.animales.Tigre;
 import componentes.personas.Caballeria;
 import componentes.personas.General;
@@ -76,7 +77,7 @@ public class Ejercito {
 
         String[] opciones = {"Crear ID para ejército", "Añadir infantería",
                 "Añadir caballería", "Añadir general", "Añadir elefante", "Añadir tigre",
-                "Consultar saldo ejército", "Eliminar unidad", "Salir y confirmar"};
+                "Consultar saldo ejército", "Eliminar unidad", "Salir y confirmar", "asasasa"};
 
         do {
 
@@ -248,8 +249,27 @@ public class Ejercito {
                     }
 
                     menu();
-
                     break;
+                case "J":
+                    try {
+                        if ((saldoPeso + Heroes.PESO_HEROE) < MAX_PESO && contadorAnimales < MAX_ANIMALES) {
+                            adicionarUnidad(new Heroes());
+                           imprimirInfo(unidades.getLast());
+                        } else {
+                            if (saldoPeso == MAX_PESO) {
+                                throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
+                            } else if (MAX_ANIMALES == contadorAnimales) {
+                                throw new MaxAnimalesException(Message.MAX_ANIMALES);
+                            } else {
+                                System.out.println(Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                        + (MAX_PESO - saldoPeso));
+                            }
+                        }
+                    } catch (MaxAnimalesException | MaxCapPesoEjercitoException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+
                 default:
                     System.out.println(Message.OPCION_INAVLIDA);
                     break;
@@ -306,7 +326,7 @@ public class Ejercito {
             unidades.add(componentes);
             saldoPeso += componentes.getPeso();
             hayGeneral = true;
-        } else if (componentes instanceof Elefante || componentes instanceof Tigre) {
+        } else if (componentes instanceof Elefante || componentes instanceof Tigre || componentes instanceof Heroes ) {
             unidades.add(componentes);
             saldoPeso += componentes.getPeso();
             contadorAnimales++;

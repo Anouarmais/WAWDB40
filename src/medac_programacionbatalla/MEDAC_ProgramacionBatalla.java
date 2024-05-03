@@ -7,6 +7,7 @@ package medac_programacionbatalla;
 import DB40.BaseDatos40;
 import DB40.VolcarInfo;
 import batallas.Batalla;
+import componentes.animales.Heroes;
 import componentes.personas.Condecorados;
 import excepciones.batallas.NombreExistenteException;
 
@@ -23,7 +24,7 @@ public class MEDAC_ProgramacionBatalla {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        String archivoQueLeer = "C:\\Users\\anouar\\Desktop\\MEDACMuProgWaWDB40\\Heroes.csv";
+        String archivoQueLeer = "Heroes.csv";
      /*   VolcarInfo nnn = new VolcarInfo();
 
         try {
@@ -38,7 +39,8 @@ public class MEDAC_ProgramacionBatalla {
 //        String test = ExploradorFicheros.leerFichero();
         // Batalla batalla = new Batalla();
 
-
+       // Heroes ascdas = new Heroes();
+    //    System.out.println(ascdas);
 
         /*VolcarInfo ho = new VolcarInfo();
         ho.ListadeCondecorados(archivoQueLeer);*/
@@ -46,12 +48,23 @@ public class MEDAC_ProgramacionBatalla {
 
        // BaseDatos40 SSS = new BaseDatos40();
      //   SSS.borrarBBDD();
-       VolcarInfo SS= new VolcarInfo();
-        SS.ListadeCondecorados(archivoQueLeer);
+        VolcarInfo volcarInfo = new VolcarInfo();
+
+
+        try {
+            List<Condecorados> condecoradosList = volcarInfo.ListadeCondecorados(archivoQueLeer);
+
+            // Imprimir los objetos Condecorados utilizando el método toString()
+            for (Condecorados condecorados : condecoradosList) {
+                System.out.println(condecorados.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //SSS.cerrarConeccion();
 
-    }
-}
+    }}
+
     
 
  

@@ -1,61 +1,43 @@
 package DB40;
 
 import componentes.personas.Condecorados;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class VolcarInfo {
 
     public List<Condecorados> ListadeCondecorados(String archivoQueLeer) throws IOException {
         List<Condecorados> ListadeCondecorados = new ArrayList<>();
-        BaseDatos40 insertar = new BaseDatos40();
-        try (BufferedReader reader = new BufferedReader(new FileReader(archivoQueLeer))) {
-            String lineas;
-            boolean headerSkipped = false;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            while ((lineas = reader.readLine()) != null) {
-                if (!headerSkipped) {
-                    headerSkipped = true;
-                    continue;
-                }
+        try (Reader reader = new FileReader(archivoQueLeer);
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
 
-                String[] fields = lineas.split(",");
+            // Obtener el encabezado del CSV
+            Map<String, Integer> headerMap = csvParser.getHeaderMap();
 
-                // Verificar que la línea tenga al menos 26 campos antes de acceder al campo en el índice 25
-                if (fields.length < 26) {
-                    System.err.println("Error: la línea no tiene suficientes campos: " + lineas);
-                    continue;
-                }
+            // Obtener los nombres de las columnas
+            List<String> columnNames = new ArrayList<>(headerMap.keySet());
 
-                Date dateAwardApproved;
-                try {
-                    dateAwardApproved = new Date(dateFormat.parse(fields[25]).getTime());
-                } catch (ParseException e) {
-                    System.err.println("Error al parsear la fecha en la línea: " + lineas);
-                    continue;
-                }
+            // Procesar cada registro en el CSV
+            for (CSVRecord csvRecord : csvParser) {
+                // Obtener los valores de las columnas
+                String lastName = csvRecord.get(headerMap.get("LAST NAME"));
+                String firstName = csvRecord.get(headerMap.get("FIRST NAME"));
+                String officerOrEnlistedIndividual = csvRecord.get(headerMap.get("OFFICER OR ENLISTED INDIVIDUAL"));
+                String typeOfActionCommendedByOriginator = csvRecord.get(headerMap.get("TYPE OF ACTION COMMENDED BY THE ORIGINATOR"));
+                String nameofApprovedAward = csvRecord.get(headerMap.get("NAME OF APPROVED AWARD"));
 
-                // Extraer los campos relevantes
-                String lastName = fields[0];
-                String firstName = fields[1];
-                String recommendedAward = fields[11];
-                String typeOfActionCommendedByOriginator = fields[13];
-
-                // Crear instancia de Condecorados y agregarla a la lista
-                Condecorados condecorados = new Condecorados(lastName, firstName, recommendedAward, typeOfActionCommendedByOriginator, dateAwardApproved);
+                // Crear objeto Condecorados y agregarlo a la lista
+                Condecorados condecorados = new Condecorados(lastName, firstName, officerOrEnlistedIndividual, typeOfActionCommendedByOriginator, nameofApprovedAward);
                 ListadeCondecorados.add(condecorados);
-
-                // Insertar en la base de datos
-                insertar.Cargarcondyheroes(ListadeCondecorados);
             }
-            insertar.cerrarConeccion();
         }
         return ListadeCondecorados;
     }
